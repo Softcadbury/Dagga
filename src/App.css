@@ -1,3 +1,10 @@
-.App {
-    text-align: center;
+.app {
+    padding: 20px;
+}
+.form {
+    max-width: 1000px;
+    margin: auto;
+}
+.graph {
+    margin-top: 20px;
 }
