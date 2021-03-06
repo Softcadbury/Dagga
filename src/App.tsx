@@ -1,61 +1,84 @@
 import { Grid, Paper, Slider, TextField } from '@material-ui/core';
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import './App.css';
 import Graph from './components/graph';
 
-function App() {
-    const [value, setValue] = React.useState<number>(30);
+function useTextField(
+    initialValue: string
+): [
+    value: string,
+    setValue: React.Dispatch<React.SetStateAction<string>>,
+    onChangeCallback: (
+        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => void
+] {
+    const [value, setValue] = useState(initialValue);
 
-    const handleChange = (
+    const onChangeCallback = (
+        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        setValue(event.currentTarget.value);
+    };
+
+    return [value, setValue, onChangeCallback];
+}
+
+function App() {
+    const [
+        initialAmount,
+        setInitialAmount,
+        onInitialAmountChange,
+    ] = useTextField('1000');
+    const [percentage, setPercentage, onPercentageChange] = useTextField('5');
+    const [time, setTime] = useState<number>(5);
+
+    const handleTimeChange = (
         event: React.ChangeEvent<{}>,
         newValue: number | number[]
     ) => {
         if (Array.isArray(newValue)) {
-            setValue(newValue[0]);
+            setTime(newValue[0]);
         } else {
-            setValue(newValue);
+            setTime(newValue);
         }
     };
 
     return (
         <div className="app">
-            <Paper style={{ padding: 16 }} className="form">
-                <Grid container alignItems="flex-start" spacing={2}>
-                    <Grid item xs={6}>
+            <Paper className="form">
+                <Grid container spacing={4}>
+                    <Grid item>
                         <TextField
-                            id="outlined-basic"
-                            label="Outlined"
-                            variant="outlined"
+                            label="Montant initial (€)"
+                            value={initialAmount}
+                            onChange={onInitialAmountChange}
                         />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item>
                         <TextField
-                            id="outlined-basic"
-                            label="Outlined"
-                            variant="outlined"
+                            label="Rendement (%)"
+                            value={percentage}
+                            onChange={onPercentageChange}
                         />
                     </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            id="outlined-basic"
-                            label="Outlined"
-                            variant="outlined"
+                </Grid>
+                <Grid container spacing={4} style={{ marginTop: 20 }}>
+                    <Grid item>Période</Grid>
+                    <Grid item style={{ width: 'calc(100% - 130px)' }}>
+                        <Slider
+                            value={time}
+                            onChange={handleTimeChange}
+                            aria-labelledby="continuous-slider"
                         />
-                    </Grid>
-                    <Grid container spacing={2}>
-                        <Grid item>test</Grid>
-                        <Grid item xs>
-                            <Slider
-                                value={value}
-                                onChange={handleChange}
-                                aria-labelledby="continuous-slider"
-                            />
-                        </Grid>
                     </Grid>
                 </Grid>
             </Paper>
-            <div className="app">
-                <Graph value={value}></Graph>
+            <div className="graph-container">
+                <Graph
+                    initialAmount={Number(initialAmount)}
+                    percentage={Number(percentage)}
+                    time={time}
+                ></Graph>
             </div>
         </div>
     );

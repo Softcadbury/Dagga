@@ -1,10 +1,11 @@
 .app {
-    padding: 20px;
+    margin: 20px 40px;
 }
 .form {
     max-width: 1000px;
     margin: auto;
+    padding: 16px;
 }
-.graph {
-    margin-top: 20px;
+.graph-container {
+    margin-top: 50px;
 }

@@ -2,25 +2,42 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
 interface GraphProps {
-    value: number;
+    initialAmount: number;
+    percentage: number;
+    time: number;
 }
 
-const Graph = ({ value }: GraphProps) => {
+const Graph = ({ initialAmount, percentage, time }: GraphProps) => {
+    const data: number[] = [initialAmount];
+
+    for (let i = 1; i <= time; i++) {
+        data[i] = data[i - 1] + data[i - 1] * (percentage / 100);
+    }
+
     const options = {
         title: {
-            text: 'My chart',
+            text: '',
+        },
+        credits: {
+            enabled: false,
+        },
+        yAxis: {
+            title: {
+                text: 'Montant (€)',
+            },
         },
         series: [
             {
-                data: [1, value, 3],
+                data,
             },
         ],
     };
 
     return (
-        <div>
-            <HighchartsReact highcharts={Highcharts} options={options} />
-        </div>
+        <HighchartsReact
+            highcharts={Highcharts}
+            options={options}
+        />
     );
 };
 
