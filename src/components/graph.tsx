@@ -1,3 +1,4 @@
+import { makeStyles } from '@material-ui/core';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
@@ -7,7 +8,14 @@ interface GraphProps {
     time: number;
 }
 
+const useStyles = makeStyles({
+    graph: {
+        margin: '40px',
+    },
+});
+
 const Graph = ({ initialAmount, percentage, time }: GraphProps) => {
+    const classes = useStyles();
     const data: number[] = [initialAmount];
 
     for (let i = 1; i <= time; i++) {
@@ -34,10 +42,9 @@ const Graph = ({ initialAmount, percentage, time }: GraphProps) => {
     };
 
     return (
-        <HighchartsReact
-            highcharts={Highcharts}
-            options={options}
-        />
+        <div className={classes.graph}>
+            <HighchartsReact highcharts={Highcharts} options={options} />
+        </div>
     );
 };
 
