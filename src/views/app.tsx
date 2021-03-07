@@ -1,7 +1,7 @@
 import { Grid, Paper, Slider, TextField } from '@material-ui/core';
 import React, { ChangeEvent, useState } from 'react';
-import './App.css';
-import Graph from './components/graph';
+import './app.css';
+import Graph from '../components/graph';
 
 function useTextField(
     initialValue: string
