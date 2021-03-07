@@ -1,27 +1,8 @@
+import React, { useState } from 'react';
 import { Grid, Paper, Slider, TextField } from '@material-ui/core';
-import React, { ChangeEvent, useState } from 'react';
 import './app.css';
 import Graph from '../components/graph';
-
-function useTextField(
-    initialValue: string
-): [
-    value: string,
-    setValue: React.Dispatch<React.SetStateAction<string>>,
-    onChangeCallback: (
-        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => void
-] {
-    const [value, setValue] = useState(initialValue);
-
-    const onChangeCallback = (
-        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setValue(event.currentTarget.value);
-    };
-
-    return [value, setValue, onChangeCallback];
-}
+import { useSlider, useTextField } from '../common/hooks';
 
 function App() {
     const [
@@ -30,18 +11,7 @@ function App() {
         onInitialAmountChange,
     ] = useTextField('1000');
     const [percentage, setPercentage, onPercentageChange] = useTextField('5');
-    const [time, setTime] = useState<number>(5);
-
-    const handleTimeChange = (
-        event: React.ChangeEvent<{}>,
-        newValue: number | number[]
-    ) => {
-        if (Array.isArray(newValue)) {
-            setTime(newValue[0]);
-        } else {
-            setTime(newValue);
-        }
-    };
+    const [time, setTime, onTimeChange] = useSlider(5);
 
     return (
         <div className="app">
@@ -67,7 +37,7 @@ function App() {
                     <Grid item style={{ width: 'calc(100% - 130px)' }}>
                         <Slider
                             value={time}
-                            onChange={handleTimeChange}
+                            onChange={onTimeChange}
                             aria-labelledby="continuous-slider"
                         />
                     </Grid>
