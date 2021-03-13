@@ -34,12 +34,14 @@ const useStyles = makeStyles((theme) => {
 });
 
 interface RenderInvestmentProps {
+    investments: Investment[];
     investment: Investment;
     deleteInvestment: (investment: Investment) => void;
     updateInvestment: (investment: Investment) => void;
 }
 
 const RenderInvestment = ({
+    investments,
     investment,
     deleteInvestment,
     updateInvestment,
@@ -54,11 +56,16 @@ const RenderInvestment = ({
     }, [deleteInvestment, investment]);
 
     useEffect(() => {
-        updateInvestment({
-            id: investment.id,
-            amount: amount,
-            percentage: percentage,
-        });
+        if (
+            investment.amount !== amount ||
+            investment.percentage !== percentage
+        ) {
+            updateInvestment({
+                id: investment.id,
+                amount: amount,
+                percentage: percentage,
+            });
+        }
     }, [investment, amount, percentage, updateInvestment]);
 
     return (
@@ -152,6 +159,7 @@ const Form = ({
             {investments.map((investment) => (
                 <RenderInvestment
                     key={investment.id}
+                    investments={investments}
                     investment={investment}
                     deleteInvestment={deleteInvestment}
                     updateInvestment={updateInvestment}

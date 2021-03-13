@@ -16,22 +16,28 @@ const useStyles = makeStyles({
 
 const Graph = ({ investments, time }: GraphProps) => {
     const classes = useStyles();
-    const data: number[] = [];
+    const computation: number[][] = [];
 
     for (let i = 0; i <= time; i++) {
-        data[i] = 0;
-
+        computation[i] = [];
         if (i === 0) {
             for (let j = 0; j < investments.length; j++) {
-                data[0] += Number(investments[j].amount);
+                computation[i][j] = Number(investments[j].amount);
             }
         } else {
             for (let j = 0; j < investments.length; j++) {
-                data[i] +=
-                    data[i - 1] +
-                    data[i - 1] * (Number(investments[j].percentage) / 100); // todo - Apply percentage on correct amount
+                computation[i][j] =
+                    computation[i - 1][j] +
+                    computation[i - 1][j] *
+                        (Number(investments[j].percentage) / 100);
             }
         }
+    }
+
+    const data = [];
+
+    for (let i = 0; i < computation.length; i++) {
+        data.push(computation[i].reduce((a, b) => a + b, 0));
     }
 
     const options = {
@@ -48,15 +54,22 @@ const Graph = ({ investments, time }: GraphProps) => {
         },
         series: [
             {
-                data,
+                data: data,
             },
         ],
     };
 
     return (
-        <div className={classes.graph}>
-            <HighchartsReact highcharts={Highcharts} options={options} />
-        </div>
+        <>
+            {investments.length !== 0 && (
+                <div className={classes.graph}>
+                    <HighchartsReact
+                        highcharts={Highcharts}
+                        options={options}
+                    />
+                </div>
+            )}
+        </>
     );
 };
 
