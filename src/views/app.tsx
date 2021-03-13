@@ -1,7 +1,9 @@
 import Graph from '../components/graph';
-import { useSlider, useTextField } from '../common/hooks';
 import Form from '../components/form';
 import { makeStyles } from '@material-ui/core';
+import { Investment } from '../types/investment';
+import { useState } from 'react';
+import { useSlider } from '../common/hooks';
 
 const useStyles = makeStyles({
     app: {
@@ -11,25 +13,37 @@ const useStyles = makeStyles({
 
 function App() {
     const classes = useStyles();
-    const [initialAmount, , onInitialAmountChange] = useTextField('1000');
-    const [percentage, , onPercentageChange] = useTextField('5');
     const [time, , onTimeChange] = useSlider(5);
+    const [investments, setInvestments] = useState<Investment[]>([]);
+
+    const addInvestment = (investment: Investment) => {
+        setInvestments([...investments, investment]);
+    };
+
+    const deleteInvestment = (investment: Investment) => {
+        setInvestments(investments.filter((p) => p.id !== investment.id));
+    };
+
+    const updateInvestment = (investment: Investment) => {
+        const newInvestments = [...investments];
+        const indexToUpdate = newInvestments.findIndex(
+            (p) => p.id === investment.id
+        );
+        newInvestments[indexToUpdate] = investment;
+        setInvestments(newInvestments);
+    };
 
     return (
         <div className={classes.app}>
             <Form
-                initialAmount={initialAmount}
-                onInitialAmountChange={onInitialAmountChange}
-                percentage={percentage}
-                onPercentageChange={onPercentageChange}
+                investments={investments}
+                addInvestment={addInvestment}
+                deleteInvestment={deleteInvestment}
+                updateInvestment={updateInvestment}
                 time={time}
                 onTimeChange={onTimeChange}
             ></Form>
-            <Graph
-                initialAmount={Number(initialAmount)}
-                percentage={Number(percentage)}
-                time={time}
-            ></Graph>
+            <Graph investments={investments} time={time}></Graph>
         </div>
     );
 }

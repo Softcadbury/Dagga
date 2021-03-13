@@ -1,13 +1,15 @@
 import React, { ChangeEvent, useState } from 'react';
 
+export type InputChangeCallbackType = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+) => void;
+
 export function useTextField(
     initialValue: string
 ): [
     value: string,
     setValue: React.Dispatch<React.SetStateAction<string>>,
-    onChangeCallback: (
-        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => void
+    onChangeCallback: InputChangeCallbackType
 ] {
     const [value, setValue] = useState(initialValue);
 
@@ -20,15 +22,17 @@ export function useTextField(
     return [value, setValue, onChangeCallback];
 }
 
+export type SliderChangeCallbackType = (
+    event: React.ChangeEvent<{}>,
+    newValue: number | number[]
+) => void;
+
 export function useSlider(
     initialValue: number
 ): [
     value: number,
     setValue: React.Dispatch<React.SetStateAction<number>>,
-    onChangeCallback: (
-        event: React.ChangeEvent<{}>,
-        newValue: number | number[]
-    ) => void
+    onChangeCallback: SliderChangeCallbackType
 ] {
     const [value, setValue] = useState(initialValue);
 
