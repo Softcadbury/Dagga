@@ -3,6 +3,10 @@ import App from './app';
 
 test('renders form', () => {
     render(<App />);
-    const element = screen.getByText(/Période/i);
-    expect(element).toBeInTheDocument();
+
+    const element1 = screen.getByText(/Durée/i);
+    expect(element1).toBeInTheDocument();
+
+    const element2 = screen.getByText(/Investissements/i);
+    expect(element2).toBeInTheDocument();
 });

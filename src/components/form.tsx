@@ -34,14 +34,12 @@ const useStyles = makeStyles((theme) => {
 });
 
 interface RenderInvestmentProps {
-    investments: Investment[];
     investment: Investment;
     deleteInvestment: (investment: Investment) => void;
     updateInvestment: (investment: Investment) => void;
 }
 
 const RenderInvestment = ({
-    investments,
     investment,
     deleteInvestment,
     updateInvestment,
@@ -159,7 +157,6 @@ const Form = ({
             {investments.map((investment) => (
                 <RenderInvestment
                     key={investment.id}
-                    investments={investments}
                     investment={investment}
                     deleteInvestment={deleteInvestment}
                     updateInvestment={updateInvestment}
