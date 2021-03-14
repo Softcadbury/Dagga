@@ -3,41 +3,67 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Investment } from '../types/investment';
 
-interface GraphProps {
-    investments: Investment[];
-    time: number;
-}
-
 const useStyles = makeStyles({
     graph: {
         margin: '40px',
     },
 });
 
-const Graph = ({ investments, time }: GraphProps) => {
-    const classes = useStyles();
-    const computation: number[][] = [];
+interface InvestmentData {
+    cumulatedAmounts: number[];
+    cumulatedAmountsWithInterest: number[];
+}
+
+function computeInvestmentData(
+    investment: Investment,
+    time: number
+): InvestmentData {
+    const data: InvestmentData = {
+        cumulatedAmounts: [],
+        cumulatedAmountsWithInterest: [],
+    };
 
     for (let i = 0; i <= time; i++) {
-        computation[i] = [];
         if (i === 0) {
-            for (let j = 0; j < investments.length; j++) {
-                computation[i][j] = Number(investments[j].amount);
-            }
+            data.cumulatedAmounts[i] = Number(investment.amount);
+            data.cumulatedAmountsWithInterest[i] = Number(investment.amount);
         } else {
-            for (let j = 0; j < investments.length; j++) {
-                computation[i][j] =
-                    computation[i - 1][j] +
-                    computation[i - 1][j] *
-                        (Number(investments[j].percentage) / 100);
-            }
+            data.cumulatedAmounts[i] = data.cumulatedAmounts[i - 1];
+            data.cumulatedAmountsWithInterest[i] =
+                data.cumulatedAmountsWithInterest[i - 1] +
+                data.cumulatedAmountsWithInterest[i - 1] *
+                    (Number(investment.percentage) / 100);
         }
     }
 
-    const data = [];
+    return data;
+}
 
-    for (let i = 0; i < computation.length; i++) {
-        data.push(computation[i].reduce((a, b) => a + b, 0));
+interface GraphProps {
+    investments: Investment[];
+    time: number;
+}
+
+const Graph = ({ investments, time }: GraphProps) => {
+    const classes = useStyles();
+    const data: InvestmentData[] = [];
+
+    for (let i = 0; i < investments.length; i++) {
+        data[i] = computeInvestmentData(investments[i], time);
+    }
+
+    const cumulatedAmounts: number[] = [];
+    const cumulatedAmountsWithInterest: number[] = [];
+
+    for (let i = 0; i <= time; i++) {
+        cumulatedAmounts[i] = data.reduce(
+            (a, b) => a + b.cumulatedAmounts[i],
+            0
+        );
+        cumulatedAmountsWithInterest[i] = data.reduce(
+            (a, b) => a + b.cumulatedAmountsWithInterest[i],
+            0
+        );
     }
 
     const options = {
@@ -54,7 +80,12 @@ const Graph = ({ investments, time }: GraphProps) => {
         },
         series: [
             {
-                data: data,
+                name: 'Cumul',
+                data: cumulatedAmounts,
+            },
+            {
+                name: 'Cumul avec intérêts',
+                data: cumulatedAmountsWithInterest,
             },
         ],
     };
