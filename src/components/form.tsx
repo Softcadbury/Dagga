@@ -9,15 +9,21 @@ import {
     Typography,
 } from '@material-ui/core';
 import { Investment } from '../types/investment';
-import { SliderChangeCallbackType, useTextField } from '../common/hooks';
+import {
+    SliderChangeCallbackType,
+    useTextField,
+    useToggleState,
+} from '../common/hooks';
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { generateId } from '../common/utils';
 
 const useStyles = makeStyles((theme) => {
     return {
         form: {
-            maxWidth: '1400px',
+            maxWidth: '1500px',
             margin: 'auto',
             padding: theme.spacing(2),
         },
@@ -61,6 +67,7 @@ const RenderInvestment = ({
     const [percentage, , onPercentageChange] = useTextField(
         investment.percentage
     );
+    const [isVisible, toggleIsVisible] = useToggleState(investment.isVisible);
 
     const onDeleteInvestmentClick = useCallback(() => {
         deleteInvestment(investment);
@@ -79,9 +86,20 @@ const RenderInvestment = ({
                 monthlyAmount,
                 monthlyAmountNet,
                 percentage,
+                isVisible,
             });
         }
-    }, [investment, amount, percentage, updateInvestment]);
+    }, [
+        investment,
+        amount,
+        percentage,
+        updateInvestment,
+        label,
+        amountNet,
+        monthlyAmount,
+        monthlyAmountNet,
+        isVisible,
+    ]);
 
     return (
         <Grid
@@ -113,14 +131,14 @@ const RenderInvestment = ({
             </Grid>
             <Grid item xs={2}>
                 <TextField
-                    label="Versement mensuel"
+                    label="Mensualité"
                     value={monthlyAmount}
                     onChange={onMonthlyAmountChange}
                 />
             </Grid>
             <Grid item xs={2}>
                 <TextField
-                    label="Versement mensuel NET"
+                    label="Mensualité NET"
                     value={monthlyAmountNet}
                     onChange={onMonthlyAmountNetChange}
                 />
@@ -134,9 +152,16 @@ const RenderInvestment = ({
             </Grid>
             <Grid item xs={1}>
                 <IconButton
+                    color={'primary'}
+                    onClick={toggleIsVisible}
+                    size="small"
+                >
+                    {isVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                </IconButton>
+                <IconButton
                     color="primary"
-                    aria-label="Supprimer un investissement"
                     onClick={onDeleteInvestmentClick}
+                    size="small"
                 >
                     <ClearIcon />
                 </IconButton>
@@ -173,6 +198,7 @@ const Form = ({
             monthlyAmount: '',
             monthlyAmountNet: '',
             percentage: '',
+            isVisible: true,
         });
     }, [addInvestment]);
 

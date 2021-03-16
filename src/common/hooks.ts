@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 
 export type InputChangeCallbackType = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -48,4 +48,11 @@ export function useSlider(
     };
 
     return [value, setValue, onChangeCallback];
+}
+
+export function useToggleState(
+    defaultValue: boolean = false
+): [boolean, () => void] {
+    const [value, setValue] = useState(defaultValue);
+    return [value, useCallback(() => setValue(!value), [value])];
 }

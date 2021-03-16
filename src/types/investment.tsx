@@ -6,4 +6,5 @@ export interface Investment {
     monthlyAmount: string;
     monthlyAmountNet: string;
     percentage: string;
+    isVisible: boolean;
 }
