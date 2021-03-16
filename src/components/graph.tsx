@@ -80,11 +80,11 @@ const Graph = ({ investments, time }: GraphProps) => {
         },
         series: [
             {
-                name: 'Cumul',
+                name: 'Cumul NET',
                 data: cumulatedAmounts,
             },
             {
-                name: 'Cumul avec intérêts',
+                name: 'Cumul NET avec intérêts',
                 data: cumulatedAmountsWithInterest,
             },
         ],

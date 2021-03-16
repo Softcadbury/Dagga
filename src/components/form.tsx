@@ -17,7 +17,7 @@ import { generateId } from '../common/utils';
 const useStyles = makeStyles((theme) => {
     return {
         form: {
-            maxWidth: '1000px',
+            maxWidth: '1400px',
             margin: 'auto',
             padding: theme.spacing(2),
         },
@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => {
         },
         addButton: {
             marginLeft: theme.spacing(1),
+        },
+        investment: {
+            marginBottom: theme.spacing(2),
         },
     };
 });
@@ -44,7 +47,17 @@ const RenderInvestment = ({
     deleteInvestment,
     updateInvestment,
 }: RenderInvestmentProps) => {
+    const classes = useStyles();
+
+    const [label, , onLabelChange] = useTextField(investment.label);
     const [amount, , onAmountChange] = useTextField(investment.amount);
+    const [amountNet, , onAmountNetChange] = useTextField(investment.amountNet);
+    const [monthlyAmount, , onMonthlyAmountChange] = useTextField(
+        investment.monthlyAmount
+    );
+    const [monthlyAmountNet, , onMonthlyAmountNetChange] = useTextField(
+        investment.monthlyAmountNet
+    );
     const [percentage, , onPercentageChange] = useTextField(
         investment.percentage
     );
@@ -60,29 +73,66 @@ const RenderInvestment = ({
         ) {
             updateInvestment({
                 id: investment.id,
-                amount: amount,
-                percentage: percentage,
+                label,
+                amount,
+                amountNet,
+                monthlyAmount,
+                monthlyAmountNet,
+                percentage,
             });
         }
     }, [investment, amount, percentage, updateInvestment]);
 
     return (
-        <Grid container spacing={4} alignItems="center">
-            <Grid item>
+        <Grid
+            container
+            spacing={2}
+            alignItems="center"
+            className={classes.investment}
+        >
+            <Grid item xs={2}>
                 <TextField
-                    label="Montant initial (€)"
+                    label="Label"
+                    value={label}
+                    onChange={onLabelChange}
+                />
+            </Grid>
+            <Grid item xs={2}>
+                <TextField
+                    label="Versement initial"
                     value={amount}
                     onChange={onAmountChange}
                 />
             </Grid>
-            <Grid item>
+            <Grid item xs={2}>
                 <TextField
-                    label="Rendement (%)"
+                    label="Versement initial NET"
+                    value={amountNet}
+                    onChange={onAmountNetChange}
+                />
+            </Grid>
+            <Grid item xs={2}>
+                <TextField
+                    label="Versement mensuel"
+                    value={monthlyAmount}
+                    onChange={onMonthlyAmountChange}
+                />
+            </Grid>
+            <Grid item xs={2}>
+                <TextField
+                    label="Versement mensuel NET"
+                    value={monthlyAmountNet}
+                    onChange={onMonthlyAmountNetChange}
+                />
+            </Grid>
+            <Grid item xs={1}>
+                <TextField
+                    label="Rendement"
                     value={percentage}
                     onChange={onPercentageChange}
                 />
             </Grid>
-            <Grid item>
+            <Grid item xs={1}>
                 <IconButton
                     color="primary"
                     aria-label="Supprimer un investissement"
@@ -117,8 +167,12 @@ const Form = ({
     const onAddInvestmentClick = useCallback(() => {
         addInvestment({
             id: generateId(),
-            amount: '1000',
-            percentage: '1',
+            label: '',
+            amount: '',
+            amountNet: '',
+            monthlyAmount: '',
+            monthlyAmountNet: '',
+            percentage: '',
         });
     }, [addInvestment]);
 
