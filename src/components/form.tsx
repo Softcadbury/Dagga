@@ -75,8 +75,13 @@ const RenderInvestment = ({
 
     useEffect(() => {
         if (
+            investment.label !== label ||
             investment.amount !== amount ||
-            investment.percentage !== percentage
+            investment.amountNet !== amountNet ||
+            investment.monthlyAmount !== monthlyAmount ||
+            investment.monthlyAmountNet !== monthlyAmountNet ||
+            investment.percentage !== percentage ||
+            investment.isVisible !== isVisible
         ) {
             updateInvestment({
                 id: investment.id,
@@ -90,14 +95,14 @@ const RenderInvestment = ({
             });
         }
     }, [
-        investment,
-        amount,
-        percentage,
         updateInvestment,
+        investment,
         label,
+        amount,
         amountNet,
         monthlyAmount,
         monthlyAmountNet,
+        percentage,
         isVisible,
     ]);
 

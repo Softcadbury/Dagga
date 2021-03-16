@@ -9,9 +9,24 @@ const useStyles = makeStyles({
     },
 });
 
+function toFixedNumber(num: number): number {
+    var pow = Math.pow(10, 2);
+    return Math.round(num * pow) / pow;
+}
+
 interface InvestmentData {
     cumulatedAmounts: number[];
     cumulatedAmountsWithInterest: number[];
+}
+
+function convertInvestmentData(investment: Investment) {
+    return {
+        amount: Number(investment.amount),
+        amountNet: Number(investment.amountNet),
+        monthlyAmount: Number(investment.monthlyAmount),
+        monthlyAmountNet: Number(investment.monthlyAmountNet),
+        percentage: Number(investment.percentage),
+    };
 }
 
 function computeInvestmentData(
@@ -23,16 +38,29 @@ function computeInvestmentData(
         cumulatedAmountsWithInterest: [],
     };
 
+    const {
+        amount,
+        amountNet,
+        monthlyAmount,
+        monthlyAmountNet,
+        percentage,
+    } = convertInvestmentData(investment);
+
     for (let i = 0; i <= time; i++) {
         if (i === 0) {
-            data.cumulatedAmounts[i] = Number(investment.amount);
-            data.cumulatedAmountsWithInterest[i] = Number(investment.amount);
+            data.cumulatedAmounts[i] = amount;
+            data.cumulatedAmountsWithInterest[i] = amountNet;
         } else {
-            data.cumulatedAmounts[i] = data.cumulatedAmounts[i - 1];
+            const previousAmount = monthlyAmount + data.cumulatedAmounts[i - 1];
+            const previousAmountWithInterest =
+                data.cumulatedAmountsWithInterest[i - 1];
+
+            data.cumulatedAmounts[i] = previousAmount;
+
             data.cumulatedAmountsWithInterest[i] =
-                data.cumulatedAmountsWithInterest[i - 1] +
-                data.cumulatedAmountsWithInterest[i - 1] *
-                    (Number(investment.percentage) / 100);
+                monthlyAmountNet +
+                previousAmountWithInterest +
+                previousAmountWithInterest * (percentage / 100);
         }
     }
 
@@ -56,13 +84,11 @@ const Graph = ({ investments, time }: GraphProps) => {
     const cumulatedAmountsWithInterest: number[] = [];
 
     for (let i = 0; i <= time; i++) {
-        cumulatedAmounts[i] = data.reduce(
-            (a, b) => a + b.cumulatedAmounts[i],
-            0
+        cumulatedAmounts[i] = toFixedNumber(
+            data.reduce((a, b) => a + b.cumulatedAmounts[i], 0)
         );
-        cumulatedAmountsWithInterest[i] = data.reduce(
-            (a, b) => a + b.cumulatedAmountsWithInterest[i],
-            0
+        cumulatedAmountsWithInterest[i] = toFixedNumber(
+            data.reduce((a, b) => a + b.cumulatedAmountsWithInterest[i], 0)
         );
     }
 
@@ -80,7 +106,7 @@ const Graph = ({ investments, time }: GraphProps) => {
         },
         series: [
             {
-                name: 'Cumul NET',
+                name: 'Cumul',
                 data: cumulatedAmounts,
             },
             {

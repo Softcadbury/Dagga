@@ -43,7 +43,10 @@ function App() {
                 time={time}
                 onTimeChange={onTimeChange}
             ></Form>
-            <Graph investments={investments} time={time}></Graph>
+            <Graph
+                investments={investments.filter((p) => p.isVisible)}
+                time={time}
+            ></Graph>
         </div>
     );
 }
