@@ -113,6 +113,20 @@ const Graph = ({ investments, time }: GraphProps) => {
                 lineWidth: 3,
             },
         },
+        tooltip: {
+            formatter: function (): string {
+                var amount = (this as any).y as number;
+                var year = (this as any).x as number;
+                var displayedYear =
+                    year === 1
+                        ? `${year} an<br/>`
+                        : year > 1
+                        ? `${year} ans<br/>`
+                        : '';
+                return `${displayedYear}<b>${amount}€</b>`;
+            },
+            borderWidth: 2,
+        },
         series: [
             {
                 name: 'Cumul',
