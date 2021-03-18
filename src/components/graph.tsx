@@ -100,18 +100,29 @@ const Graph = ({ investments, time }: GraphProps) => {
             enabled: false,
         },
         yAxis: {
+            allowDecimals: false,
             title: {
                 text: 'Montant (€)',
+            },
+        },
+        xAxis: {
+            allowDecimals: false,
+        },
+        plotOptions: {
+            series: {
+                lineWidth: 3,
             },
         },
         series: [
             {
                 name: 'Cumul',
                 data: cumulatedAmounts,
+                color: '#DF5353',
             },
             {
                 name: 'Cumul NET avec intérêts',
                 data: cumulatedAmountsWithInterest,
+                color: '#55BF3B',
             },
         ],
     };

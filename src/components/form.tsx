@@ -113,49 +113,49 @@ const RenderInvestment = ({
             alignItems="center"
             className={classes.investment}
         >
-            <Grid item xs={2}>
+            <Grid item lg={2} md={4} xs={6}>
                 <TextField
                     label="Label"
                     value={label}
                     onChange={onLabelChange}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item lg={2} md={4} xs={6}>
                 <TextField
                     label="Versement initial"
                     value={amount}
                     onChange={onAmountChange}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item lg={2} md={4} xs={6}>
                 <TextField
                     label="Versement initial NET"
                     value={amountNet}
                     onChange={onAmountNetChange}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item lg={2} md={4} xs={6}>
                 <TextField
                     label="Mensualité"
                     value={monthlyAmount}
                     onChange={onMonthlyAmountChange}
                 />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item lg={2} md={4} xs={6}>
                 <TextField
                     label="Mensualité NET"
                     value={monthlyAmountNet}
                     onChange={onMonthlyAmountNetChange}
                 />
             </Grid>
-            <Grid item xs={1}>
+            <Grid item lg={1} md={4} xs={6}>
                 <TextField
                     label="Rendement"
                     value={percentage}
                     onChange={onPercentageChange}
                 />
             </Grid>
-            <Grid item xs={1}>
+            <Grid item lg={1} md={4} xs={6}>
                 <IconButton
                     color={'primary'}
                     onClick={toggleIsVisible}
