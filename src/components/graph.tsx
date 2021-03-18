@@ -51,16 +51,16 @@ function computeInvestmentData(
             data.cumulatedAmounts[i] = amount;
             data.cumulatedAmountsWithInterest[i] = amountNet;
         } else {
-            const previousAmount = monthlyAmount + data.cumulatedAmounts[i - 1];
+            const previousAmount = data.cumulatedAmounts[i - 1];
             const previousAmountWithInterest =
                 data.cumulatedAmountsWithInterest[i - 1];
 
-            data.cumulatedAmounts[i] = previousAmount;
+            data.cumulatedAmounts[i] = previousAmount + monthlyAmount * 12;
 
             data.cumulatedAmountsWithInterest[i] =
-                monthlyAmountNet +
                 previousAmountWithInterest +
-                previousAmountWithInterest * (percentage / 100);
+                previousAmountWithInterest * (percentage / 100) +
+                monthlyAmountNet * 12;
         }
     }
 
