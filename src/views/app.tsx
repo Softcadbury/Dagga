@@ -2,8 +2,8 @@ import Graph from '../components/graph';
 import Form from '../components/form';
 import { makeStyles } from '@material-ui/core';
 import { Investment } from '../types/investment';
-import { useState } from 'react';
-import { useSlider } from '../common/hooks';
+import { useEffect } from 'react';
+import { useLocalStorage, useSlider } from '../common/hooks';
 
 const useStyles = makeStyles({
     app: {
@@ -16,10 +16,25 @@ const useStyles = makeStyles({
     },
 });
 
-function App() {
-    const classes = useStyles();
-    const [time, , onTimeChange] = useSlider(5);
-    const [investments, setInvestments] = useState<Investment[]>([]);
+function useTime() {
+    const [time, setTime] = useLocalStorage<number>('time', 15);
+    const [sliderTime, , onTimeChange] = useSlider(time);
+
+    useEffect(() => {
+        setTime(sliderTime);
+    }, [setTime, sliderTime]);
+
+    return {
+        time: sliderTime,
+        onTimeChange,
+    };
+}
+
+function useInvestment() {
+    const [investments, setInvestments] = useLocalStorage<Investment[]>(
+        'investments',
+        []
+    );
 
     const addInvestment = (investment: Investment) => {
         setInvestments([...investments, investment]);
@@ -37,6 +52,24 @@ function App() {
         newInvestments[indexToUpdate] = investment;
         setInvestments(newInvestments);
     };
+
+    return {
+        investments,
+        addInvestment,
+        deleteInvestment,
+        updateInvestment,
+    };
+}
+
+function App() {
+    const classes = useStyles();
+    const { time, onTimeChange } = useTime();
+    const {
+        investments,
+        addInvestment,
+        deleteInvestment,
+        updateInvestment,
+    } = useInvestment();
 
     return (
         <div className={classes.app}>

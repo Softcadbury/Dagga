@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { toFixedNumber } from '../common/utils';
 import { Investment } from '../types/investment';
 
 const useStyles = makeStyles((theme) => {
@@ -12,11 +13,6 @@ const useStyles = makeStyles((theme) => {
         },
     };
 });
-
-function toFixedNumber(num: number): number {
-    var pow = Math.pow(10, 2);
-    return Math.round(num * pow) / pow;
-}
 
 interface InvestmentData {
     cumulatedAmounts: number[];
