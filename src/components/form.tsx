@@ -113,49 +113,49 @@ const RenderInvestment = ({
             alignItems="center"
             className={classes.investment}
         >
-            <Grid item lg={2} md={4} xs={6}>
+            <Grid item lg={2} md={4} sm={6} xs={12}>
                 <TextField
                     label="Label"
                     value={label}
                     onChange={onLabelChange}
                 />
             </Grid>
-            <Grid item lg={2} md={4} xs={6}>
+            <Grid item lg={2} md={4} sm={6} xs={12}>
                 <TextField
                     label="Versement initial"
                     value={amount}
                     onChange={onAmountChange}
                 />
             </Grid>
-            <Grid item lg={2} md={4} xs={6}>
+            <Grid item lg={2} md={4} sm={6} xs={12}>
                 <TextField
                     label="Versement initial NET"
                     value={amountNet}
                     onChange={onAmountNetChange}
                 />
             </Grid>
-            <Grid item lg={2} md={4} xs={6}>
+            <Grid item lg={2} md={4} sm={6} xs={12}>
                 <TextField
                     label="Mensualité"
                     value={monthlyAmount}
                     onChange={onMonthlyAmountChange}
                 />
             </Grid>
-            <Grid item lg={2} md={4} xs={6}>
+            <Grid item lg={2} md={4} sm={6} xs={12}>
                 <TextField
                     label="Mensualité NET"
                     value={monthlyAmountNet}
                     onChange={onMonthlyAmountNetChange}
                 />
             </Grid>
-            <Grid item lg={1} md={4} xs={6}>
+            <Grid item lg={1} md={4} sm={6} xs={12}>
                 <TextField
                     label="Rendement"
                     value={percentage}
                     onChange={onPercentageChange}
                 />
             </Grid>
-            <Grid item lg={1} md={4} xs={6}>
+            <Grid item lg={1} md={4} sm={6} xs={12}>
                 <IconButton
                     color={'primary'}
                     onClick={toggleIsVisible}

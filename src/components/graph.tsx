@@ -3,10 +3,14 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Investment } from '../types/investment';
 
-const useStyles = makeStyles({
-    graph: {
-        margin: '40px',
-    },
+const useStyles = makeStyles((theme) => {
+    return {
+        graph: {
+            maxWidth: '1500px',
+            margin: 'auto',
+            paddingTop: theme.spacing(3),
+        },
+    };
 });
 
 function toFixedNumber(num: number): number {

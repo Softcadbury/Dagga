@@ -9,6 +9,11 @@ const useStyles = makeStyles({
     app: {
         margin: '20px 40px',
     },
+    '@media screen and (max-width: 600px)': {
+        app: {
+            margin: '10px',
+        },
+    },
 });
 
 function App() {
