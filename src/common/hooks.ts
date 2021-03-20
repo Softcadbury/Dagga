@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useCallback, useState } from 'react';
+import React, { ChangeEvent, useCallback, useRef, useState } from 'react';
+import debounce from 'lodash.debounce';
 
 export type InputChangeCallbackType = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -71,10 +72,18 @@ export function useLocalStorage<T>(
         }
     });
 
+    const debouncedSave = useRef(
+        debounce(
+            (newValue: T) =>
+                window.localStorage.setItem(key, JSON.stringify(newValue)),
+            400
+        )
+    ).current;
+
     const setValue = (value: T) => {
         try {
             setStoredValue(value);
-            window.localStorage.setItem(key, JSON.stringify(value));
+            debouncedSave(value);
         } catch (error) {
             console.log(error);
         }
