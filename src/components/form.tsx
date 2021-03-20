@@ -18,6 +18,7 @@ import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { generateId } from '../common/utils';
 
 const useStyles = makeStyles((theme) => {
@@ -44,12 +45,14 @@ const useStyles = makeStyles((theme) => {
 
 interface RenderInvestmentProps {
     investment: Investment;
+    addInvestment: (investment: Investment) => void;
     deleteInvestment: (investment: Investment) => void;
     updateInvestment: (investment: Investment) => void;
 }
 
 const RenderInvestment = ({
     investment,
+    addInvestment,
     deleteInvestment,
     updateInvestment,
 }: RenderInvestmentProps) => {
@@ -72,6 +75,14 @@ const RenderInvestment = ({
     const onDeleteInvestmentClick = useCallback(() => {
         deleteInvestment(investment);
     }, [deleteInvestment, investment]);
+
+    const onDuplicateClick = useCallback(() => {
+        addInvestment({
+            ...investment,
+            id: generateId(),
+            label: investment.label + ' copie',
+        });
+    }, [addInvestment, investment]);
 
     useEffect(() => {
         if (
@@ -157,11 +168,11 @@ const RenderInvestment = ({
             </Grid>
             <Grid item lg={1} md={4} sm={6} xs={12}>
                 <IconButton
-                    color={'primary'}
-                    onClick={toggleIsVisible}
+                    color="primary"
+                    onClick={onDuplicateClick}
                     size="small"
                 >
-                    {isVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    <FileCopyIcon />
                 </IconButton>
                 <IconButton
                     color="primary"
@@ -169,6 +180,13 @@ const RenderInvestment = ({
                     size="small"
                 >
                     <ClearIcon />
+                </IconButton>
+                <IconButton
+                    color="primary"
+                    onClick={toggleIsVisible}
+                    size="small"
+                >
+                    {isVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
                 </IconButton>
             </Grid>
         </Grid>
@@ -197,7 +215,7 @@ const Form = ({
     const onAddInvestmentClick = useCallback(() => {
         addInvestment({
             id: generateId(),
-            label: '',
+            label: `Investissement ${investments.length + 1}`,
             amount: '',
             amountNet: '',
             monthlyAmount: '',
@@ -205,7 +223,7 @@ const Form = ({
             percentage: '',
             isVisible: true,
         });
-    }, [addInvestment]);
+    }, [addInvestment, investments.length]);
 
     return (
         <Paper className={classes.form}>
@@ -243,6 +261,7 @@ const Form = ({
                 <RenderInvestment
                     key={investment.id}
                     investment={investment}
+                    addInvestment={addInvestment}
                     deleteInvestment={deleteInvestment}
                     updateInvestment={updateInvestment}
                 />
