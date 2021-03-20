@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => {
         investment: {
             marginBottom: theme.spacing(2),
         },
+        icon: {
+            fontSize: '1.3rem',
+        },
     };
 });
 
@@ -169,24 +172,28 @@ const RenderInvestment = ({
             <Grid item lg={1} md={4} sm={6} xs={12}>
                 <IconButton
                     color="primary"
+                    onClick={toggleIsVisible}
+                    size="small"
+                >
+                    {isVisible ? (
+                        <VisibilityIcon className={classes.icon} />
+                    ) : (
+                        <VisibilityOffIcon className={classes.icon} />
+                    )}
+                </IconButton>
+                <IconButton
+                    color="primary"
                     onClick={onDuplicateClick}
                     size="small"
                 >
-                    <FileCopyIcon />
+                    <FileCopyIcon className={classes.icon} />
                 </IconButton>
                 <IconButton
                     color="primary"
                     onClick={onDeleteInvestmentClick}
                     size="small"
                 >
-                    <ClearIcon />
-                </IconButton>
-                <IconButton
-                    color="primary"
-                    onClick={toggleIsVisible}
-                    size="small"
-                >
-                    {isVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    <ClearIcon className={classes.icon} />
                 </IconButton>
             </Grid>
         </Grid>

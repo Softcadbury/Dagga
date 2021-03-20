@@ -96,6 +96,9 @@ const Graph = ({ investments, time }: GraphProps) => {
         title: {
             text: '',
         },
+        chart: {
+            marginRight: 20,
+        },
         credits: {
             enabled: false,
         },
