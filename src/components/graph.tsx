@@ -67,19 +67,17 @@ function computeInvestmentData(
     return data;
 }
 
-interface GraphProps {
-    investments: Investment[];
-    time: number;
-}
-
-const Graph = ({ investments, time }: GraphProps) => {
-    const classes = useStyles();
+function computeInvestmentsData(investments: Investment[], time: number) {
     const data: InvestmentData[] = [];
 
     for (let i = 0; i < investments.length; i++) {
         data[i] = computeInvestmentData(investments[i], time);
     }
 
+    return data;
+}
+
+function reduceInvestmentsData(data: InvestmentData[], time: number) {
     const cumulatedAmounts: number[] = [];
     const cumulatedAmountsWithInterest: number[] = [];
 
@@ -91,6 +89,25 @@ const Graph = ({ investments, time }: GraphProps) => {
             data.reduce((a, b) => a + b.cumulatedAmountsWithInterest[i], 0)
         );
     }
+
+    return {
+        cumulatedAmounts,
+        cumulatedAmountsWithInterest,
+    };
+}
+
+interface GraphProps {
+    investments: Investment[];
+    time: number;
+}
+
+const Graph = ({ investments, time }: GraphProps) => {
+    const classes = useStyles();
+    const data = computeInvestmentsData(investments, time);
+    const {
+        cumulatedAmounts,
+        cumulatedAmountsWithInterest,
+    } = reduceInvestmentsData(data, time);
 
     const options = {
         title: {
