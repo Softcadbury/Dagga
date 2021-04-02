@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import App from './app';
 
-test('renders form', () => {
+test('app', () => {
     render(<App />);
 
     const element1 = screen.getByText(/Durée/i);
