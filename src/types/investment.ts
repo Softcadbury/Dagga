@@ -8,3 +8,16 @@ export interface Investment {
     percentage: string;
     isVisible: boolean;
 }
+
+export interface InvestmentNumerical {
+    amount: number;
+    amountNet: number;
+    monthlyAmount: number;
+    monthlyAmountNet: number;
+    percentage: number;
+}
+
+export interface InvestmentData {
+    cumulatedAmounts: number[];
+    cumulatedAmountsWithInterest: number[];
+}

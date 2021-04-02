@@ -2,7 +2,11 @@ import { makeStyles } from '@material-ui/core';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { toFixedNumber } from '../common/utils';
-import { Investment } from '../types/investment';
+import {
+    Investment,
+    InvestmentData,
+    InvestmentNumerical,
+} from '../types/investment';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -14,12 +18,7 @@ const useStyles = makeStyles((theme) => {
     };
 });
 
-interface InvestmentData {
-    cumulatedAmounts: number[];
-    cumulatedAmountsWithInterest: number[];
-}
-
-function convertInvestmentData(investment: Investment) {
+function convertInvestmentData(investment: Investment): InvestmentNumerical {
     return {
         amount: Number(investment.amount),
         amountNet: Number(investment.amountNet),
