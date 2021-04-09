@@ -245,7 +245,7 @@ const Form = ({
                         aria-labelledby="continuous-slider"
                         marks={true}
                         min={1}
-                        max={30}
+                        max={40}
                         valueLabelDisplay="on"
                     />
                 </Grid>
