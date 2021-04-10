@@ -3,7 +3,6 @@ import {
     InvestmentData,
     InvestmentNumerical,
 } from '../types/investment';
-import { toFixedNumber } from './utils';
 
 export function convertInvestment(investment: Investment): InvestmentNumerical {
     return {
@@ -67,10 +66,10 @@ export function reduceInvestmentsData(data: InvestmentData[], time: number) {
     const cumulatedAmountsWithInterest: number[] = [];
 
     for (let i = 0; i <= time; i++) {
-        cumulatedAmounts[i] = toFixedNumber(
+        cumulatedAmounts[i] = Math.round(
             data.reduce((a, b) => a + b.cumulatedAmounts[i], 0)
         );
-        cumulatedAmountsWithInterest[i] = toFixedNumber(
+        cumulatedAmountsWithInterest[i] = Math.round(
             data.reduce((a, b) => a + b.cumulatedAmountsWithInterest[i], 0)
         );
     }

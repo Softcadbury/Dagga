@@ -9,7 +9,6 @@ import {
     convertInvestment,
     reduceInvestmentsData,
 } from './investment.utils';
-import { toFixedNumber } from './utils';
 
 test('convertInvestment', () => {
     // Arrange
@@ -57,10 +56,10 @@ test('computeInvestmentData', () => {
         expect(result.cumulatedAmounts[index]).toEqual(value);
     });
 
-    [100, 230, 373, 530.3, 703.33, 893.66].forEach((value, index) => {
-        expect(
-            toFixedNumber(result.cumulatedAmountsWithInterest[index])
-        ).toEqual(value);
+    [100, 230, 373, 530, 703, 894].forEach((value, index) => {
+        expect(Math.round(result.cumulatedAmountsWithInterest[index])).toEqual(
+            value
+        );
     });
 });
 
@@ -103,9 +102,9 @@ test('computeInvestmentsData', () => {
         expect(result[0].cumulatedAmounts[index]).toEqual(value);
     });
 
-    [10, 131, 264.1].forEach((value, index) => {
+    [10, 131, 264].forEach((value, index) => {
         expect(
-            toFixedNumber(result[0].cumulatedAmountsWithInterest[index])
+            Math.round(result[0].cumulatedAmountsWithInterest[index])
         ).toEqual(value);
     });
 
@@ -117,9 +116,9 @@ test('computeInvestmentsData', () => {
         expect(result[1].cumulatedAmounts[index]).toEqual(value);
     });
 
-    [20, 264, 556.8].forEach((value, index) => {
+    [20, 264, 557].forEach((value, index) => {
         expect(
-            toFixedNumber(result[1].cumulatedAmountsWithInterest[index])
+            Math.round(result[1].cumulatedAmountsWithInterest[index])
         ).toEqual(value);
     });
 });
