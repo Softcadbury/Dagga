@@ -1,9 +1,14 @@
+import { makeStyles } from '@material-ui/core';
+import { Investment, InvestmentData } from '../types/investment';
+import { useEffect, useMemo } from 'react';
+import { useLocalStorage, useSlider } from '../common/hooks';
 import DataGraph from '../components/data-graph';
 import DataForm from '../components/data-form';
-import { makeStyles } from '@material-ui/core';
-import { Investment } from '../types/investment';
-import { useEffect } from 'react';
-import { useLocalStorage, useSlider } from '../common/hooks';
+import DataTable from '../components/data-table';
+import {
+    computeInvestmentsData,
+    reduceInvestmentsData,
+} from '../common/investment.utils';
 
 const useStyles = makeStyles({
     app: {
@@ -71,6 +76,21 @@ function App() {
         updateInvestment,
     } = useInvestment();
 
+    const visibleInvestments = useMemo(
+        () => investments.filter((p) => p.isVisible),
+        [investments]
+    );
+
+    const computedInvestments: InvestmentData[] = useMemo(
+        () => computeInvestmentsData(visibleInvestments, time),
+        [visibleInvestments, time]
+    );
+
+    const { cumulatedAmounts, cumulatedAmountsWithInterest } = useMemo(
+        () => reduceInvestmentsData(computedInvestments, time),
+        [computedInvestments, time]
+    );
+
     return (
         <div className={classes.app}>
             <DataForm
@@ -82,7 +102,13 @@ function App() {
                 onTimeChange={onTimeChange}
             />
             <DataGraph
-                investments={investments.filter((p) => p.isVisible)}
+                cumulatedAmounts={cumulatedAmounts}
+                cumulatedAmountsWithInterest={cumulatedAmountsWithInterest}
+            />
+            <DataTable
+                investments={visibleInvestments}
+                computedInvestments={computedInvestments}
+                cumulatedAmountsWithInterest={cumulatedAmountsWithInterest}
                 time={time}
             />
         </div>

@@ -32,13 +32,15 @@ export function computeInvestmentData(
             const previousAmountWithInterest =
                 data.cumulatedAmountsWithInterest[i - 1];
 
-            data.cumulatedAmounts[i] =
-                previousAmount + investment.monthlyAmount * 12;
+            data.cumulatedAmounts[i] = Math.round(
+                previousAmount + investment.monthlyAmount * 12
+            );
 
-            data.cumulatedAmountsWithInterest[i] =
+            data.cumulatedAmountsWithInterest[i] = Math.round(
                 previousAmountWithInterest +
-                previousAmountWithInterest * (investment.percentage / 100) +
-                investment.monthlyAmountNet * 12;
+                    previousAmountWithInterest * (investment.percentage / 100) +
+                    investment.monthlyAmountNet * 12
+            );
         }
     }
 
@@ -66,11 +68,13 @@ export function reduceInvestmentsData(data: InvestmentData[], time: number) {
     const cumulatedAmountsWithInterest: number[] = [];
 
     for (let i = 0; i <= time; i++) {
-        cumulatedAmounts[i] = Math.round(
-            data.reduce((a, b) => a + b.cumulatedAmounts[i], 0)
+        cumulatedAmounts[i] = data.reduce(
+            (a, b) => a + b.cumulatedAmounts[i],
+            0
         );
-        cumulatedAmountsWithInterest[i] = Math.round(
-            data.reduce((a, b) => a + b.cumulatedAmountsWithInterest[i], 0)
+        cumulatedAmountsWithInterest[i] = data.reduce(
+            (a, b) => a + b.cumulatedAmountsWithInterest[i],
+            0
         );
     }
 

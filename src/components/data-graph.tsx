@@ -1,34 +1,27 @@
 import { makeStyles } from '@material-ui/core';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import {
-    computeInvestmentsData,
-    reduceInvestmentsData,
-} from '../common/investment.utils';
-import { Investment } from '../types/investment';
 
 const useStyles = makeStyles((theme) => {
     return {
         graph: {
             maxWidth: '1500px',
             margin: 'auto',
-            paddingTop: theme.spacing(3),
+            padding: theme.spacing(10, 2, 4),
         },
     };
 });
 
 interface DataGraphProps {
-    investments: Investment[];
-    time: number;
+    cumulatedAmounts: number[];
+    cumulatedAmountsWithInterest: number[];
 }
 
-const DataGraph = ({ investments, time }: DataGraphProps) => {
+const DataGraph = ({
+    cumulatedAmounts,
+    cumulatedAmountsWithInterest,
+}: DataGraphProps) => {
     const classes = useStyles();
-    const data = computeInvestmentsData(investments, time);
-    const {
-        cumulatedAmounts,
-        cumulatedAmountsWithInterest,
-    } = reduceInvestmentsData(data, time);
 
     const options = {
         title: {
@@ -82,17 +75,14 @@ const DataGraph = ({ investments, time }: DataGraphProps) => {
         ],
     };
 
+    if (cumulatedAmounts.length === 0) {
+        return <></>;
+    }
+
     return (
-        <>
-            {investments.length !== 0 && (
-                <div className={classes.graph}>
-                    <HighchartsReact
-                        highcharts={Highcharts}
-                        options={options}
-                    />
-                </div>
-            )}
-        </>
+        <div className={classes.graph}>
+            <HighchartsReact highcharts={Highcharts} options={options} />
+        </div>
     );
 };
 

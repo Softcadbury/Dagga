@@ -46,19 +46,19 @@ const useStyles = makeStyles((theme) => {
     };
 });
 
-interface RenderInvestmentProps {
+interface InvestmentFormProps {
     investment: Investment;
     addInvestment: (investment: Investment) => void;
     deleteInvestment: (investment: Investment) => void;
     updateInvestment: (investment: Investment) => void;
 }
 
-const RenderInvestment = ({
+const InvestmentForm = ({
     investment,
     addInvestment,
     deleteInvestment,
     updateInvestment,
-}: RenderInvestmentProps) => {
+}: InvestmentFormProps) => {
     const classes = useStyles();
 
     const [label, , onLabelChange] = useTextField(investment.label);
@@ -265,7 +265,7 @@ const DataForm = ({
                 </Grid>
             </Grid>
             {investments.map((investment) => (
-                <RenderInvestment
+                <InvestmentForm
                     key={investment.id}
                     investment={investment}
                     addInvestment={addInvestment}
