@@ -200,7 +200,7 @@ const RenderInvestment = ({
     );
 };
 
-interface FormProps {
+interface DataFormProps {
     investments: Investment[];
     addInvestment: (investment: Investment) => void;
     deleteInvestment: (investment: Investment) => void;
@@ -209,14 +209,14 @@ interface FormProps {
     onTimeChange: SliderChangeCallbackType;
 }
 
-const Form = ({
+const DataForm = ({
     investments,
     addInvestment,
     deleteInvestment,
     updateInvestment,
     time,
     onTimeChange,
-}: FormProps) => {
+}: DataFormProps) => {
     const classes = useStyles();
 
     const onAddInvestmentClick = useCallback(() => {
@@ -277,4 +277,4 @@ const Form = ({
     );
 };
 
-export default Form;
+export default DataForm;

@@ -1,5 +1,5 @@
-import Graph from '../components/graph';
-import Form from '../components/form';
+import DataGraph from '../components/data-graph';
+import DataForm from '../components/data-form';
 import { makeStyles } from '@material-ui/core';
 import { Investment } from '../types/investment';
 import { useEffect } from 'react';
@@ -73,18 +73,18 @@ function App() {
 
     return (
         <div className={classes.app}>
-            <Form
+            <DataForm
                 investments={investments}
                 addInvestment={addInvestment}
                 deleteInvestment={deleteInvestment}
                 updateInvestment={updateInvestment}
                 time={time}
                 onTimeChange={onTimeChange}
-            ></Form>
-            <Graph
+            />
+            <DataGraph
                 investments={investments.filter((p) => p.isVisible)}
                 time={time}
-            ></Graph>
+            />
         </div>
     );
 }

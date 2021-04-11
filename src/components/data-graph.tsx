@@ -17,12 +17,12 @@ const useStyles = makeStyles((theme) => {
     };
 });
 
-interface GraphProps {
+interface DataGraphProps {
     investments: Investment[];
     time: number;
 }
 
-const Graph = ({ investments, time }: GraphProps) => {
+const DataGraph = ({ investments, time }: DataGraphProps) => {
     const classes = useStyles();
     const data = computeInvestmentsData(investments, time);
     const {
@@ -96,4 +96,4 @@ const Graph = ({ investments, time }: GraphProps) => {
     );
 };
 
-export default Graph;
+export default DataGraph;
