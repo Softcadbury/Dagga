@@ -56,7 +56,7 @@ test('computeInvestmentData', () => {
         expect(result.cumulatedAmounts[index]).toEqual(value);
     });
 
-    [100, 230, 373, 530, 703, 894].forEach((value, index) => {
+    [100, 230, 373, 530, 703, 893].forEach((value, index) => {
         expect(Math.round(result.cumulatedAmountsWithInterest[index])).toEqual(
             value
         );

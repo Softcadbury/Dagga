@@ -101,16 +101,20 @@ function App() {
                 time={time}
                 onTimeChange={onTimeChange}
             />
-            <DataGraph
-                cumulatedAmounts={cumulatedAmounts}
-                cumulatedAmountsWithInterest={cumulatedAmountsWithInterest}
-            />
-            <DataTable
-                investments={visibleInvestments}
-                computedInvestments={computedInvestments}
-                cumulatedAmountsWithInterest={cumulatedAmountsWithInterest}
-                time={time}
-            />
+            {!!investments.length && (
+                <DataGraph
+                    cumulatedAmounts={cumulatedAmounts}
+                    cumulatedAmountsWithInterest={cumulatedAmountsWithInterest}
+                />
+            )}
+            {!!investments.length && (
+                <DataTable
+                    investments={visibleInvestments}
+                    computedInvestments={computedInvestments}
+                    cumulatedAmountsWithInterest={cumulatedAmountsWithInterest}
+                    time={time}
+                />
+            )}
         </div>
     );
 }

@@ -1,5 +1,6 @@
 import {
     makeStyles,
+    Paper,
     Table,
     TableBody,
     TableCell,
@@ -14,7 +15,11 @@ const useStyles = makeStyles((theme) => {
         table: {
             maxWidth: '1500px',
             margin: 'auto',
-            paddingTop: theme.spacing(3),
+            marginTop: theme.spacing(3),
+        },
+        headCell: {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.common.white,
         },
     };
 });
@@ -42,9 +47,9 @@ const Body = ({
                     {cumulatedAmountsWithInterest[i]}
                 </TableCell>
                 {computedInvestments.length > 1 &&
-                    computedInvestments.map((computedInvestment) => {
+                    computedInvestments.map((computedInvestment, index) => {
                         return (
-                            <TableCell>
+                            <TableCell key={index}>
                                 {
                                     computedInvestment
                                         .cumulatedAmountsWithInterest[i]
@@ -64,14 +69,20 @@ interface HeaderProps {
 }
 
 const Header = ({ investments }: HeaderProps) => {
+    const classes = useStyles();
+
     return (
         <TableHead>
             <TableRow>
-                <TableCell>Année</TableCell>
-                <TableCell>Cumul</TableCell>
+                <TableCell className={classes.headCell}>Période</TableCell>
+                <TableCell className={classes.headCell}>Cumul</TableCell>
                 {investments.length > 1 &&
-                    investments.map((investment) => {
-                        return <TableCell>{investment.label}</TableCell>;
+                    investments.map((investment, index) => {
+                        return (
+                            <TableCell key={index} className={classes.headCell}>
+                                {investment.label}
+                            </TableCell>
+                        );
                     })}
             </TableRow>
         </TableHead>
@@ -93,12 +104,8 @@ const DataTable = ({
 }: DataTableProps) => {
     const classes = useStyles();
 
-    if (investments.length === 0) {
-        return <></>;
-    }
-
     return (
-        <TableContainer className={classes.table}>
+        <TableContainer className={classes.table} component={Paper}>
             <Table size="small">
                 <Header investments={investments} />
                 <Body

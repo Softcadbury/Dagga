@@ -75,10 +75,6 @@ const DataGraph = ({
         ],
     };
 
-    if (cumulatedAmounts.length === 0) {
-        return <></>;
-    }
-
     return (
         <div className={classes.graph}>
             <HighchartsReact highcharts={Highcharts} options={options} />
