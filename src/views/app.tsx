@@ -111,6 +111,7 @@ function App() {
                 <DataTable
                     investments={visibleInvestments}
                     computedInvestments={computedInvestments}
+                    cumulatedAmounts={cumulatedAmounts}
                     cumulatedAmountsWithInterest={cumulatedAmountsWithInterest}
                     time={time}
                 />

@@ -1,6 +1,5 @@
 import {
     makeStyles,
-    Paper,
     Table,
     TableBody,
     TableCell,
@@ -10,28 +9,26 @@ import {
 } from '@material-ui/core';
 import { Investment, InvestmentData } from '../types/investment';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles(() => {
     return {
         table: {
             maxWidth: '1500px',
+            width: 'fit-content',
             margin: 'auto',
-            marginTop: theme.spacing(3),
-        },
-        headCell: {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.common.white,
         },
     };
 });
 
 interface BodyProps {
     computedInvestments: InvestmentData[];
+    cumulatedAmounts: number[];
     cumulatedAmountsWithInterest: number[];
     time: number;
 }
 
 const Body = ({
     computedInvestments,
+    cumulatedAmounts,
     cumulatedAmountsWithInterest,
     time,
 }: BodyProps) => {
@@ -45,6 +42,9 @@ const Body = ({
                 </TableCell>
                 <TableCell component="th" scope="row">
                     {cumulatedAmountsWithInterest[i]}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                    {cumulatedAmounts[i]}
                 </TableCell>
                 {computedInvestments.length > 1 &&
                     computedInvestments.map((computedInvestment, index) => {
@@ -69,17 +69,16 @@ interface HeaderProps {
 }
 
 const Header = ({ investments }: HeaderProps) => {
-    const classes = useStyles();
-
     return (
         <TableHead>
             <TableRow>
-                <TableCell className={classes.headCell}>Période</TableCell>
-                <TableCell className={classes.headCell}>Cumul</TableCell>
+                <TableCell>Année</TableCell>
+                <TableCell>Cumul NET avec intérêts</TableCell>
+                <TableCell>Cumul</TableCell>
                 {investments.length > 1 &&
                     investments.map((investment, index) => {
                         return (
-                            <TableCell key={index} className={classes.headCell}>
+                            <TableCell key={index}>
                                 {investment.label}
                             </TableCell>
                         );
@@ -92,6 +91,7 @@ const Header = ({ investments }: HeaderProps) => {
 interface DataTableProps {
     investments: Investment[];
     computedInvestments: InvestmentData[];
+    cumulatedAmounts: number[];
     cumulatedAmountsWithInterest: number[];
     time: number;
 }
@@ -99,17 +99,19 @@ interface DataTableProps {
 const DataTable = ({
     investments,
     computedInvestments,
+    cumulatedAmounts,
     cumulatedAmountsWithInterest,
     time,
 }: DataTableProps) => {
     const classes = useStyles();
 
     return (
-        <TableContainer className={classes.table} component={Paper}>
+        <TableContainer className={classes.table}>
             <Table size="small">
                 <Header investments={investments} />
                 <Body
                     computedInvestments={computedInvestments}
+                    cumulatedAmounts={cumulatedAmounts}
                     cumulatedAmountsWithInterest={cumulatedAmountsWithInterest}
                     time={time}
                 />

@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => {
         graph: {
             maxWidth: '1500px',
             margin: 'auto',
-            padding: theme.spacing(10, 2, 4),
+            padding: theme.spacing(4, 2),
         },
     };
 });

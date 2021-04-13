@@ -3,7 +3,6 @@ import {
     Grid,
     IconButton,
     makeStyles,
-    Paper,
     Slider,
     TextField,
     Typography,
@@ -233,10 +232,10 @@ const DataForm = ({
     }, [addInvestment, investments.length]);
 
     return (
-        <Paper className={classes.form}>
+        <div className={classes.form}>
             <Grid container spacing={4} className={classes.timeContainer}>
                 <Grid item>
-                    <Typography variant="h5">Durée</Typography>
+                    <Typography variant="h6">Durée</Typography>
                 </Grid>
                 <Grid item className={classes.sliderContainer}>
                     <Slider
@@ -252,7 +251,7 @@ const DataForm = ({
             </Grid>
             <Grid container spacing={4} alignItems="center">
                 <Grid item>
-                    <Typography variant="h5">Investissements</Typography>
+                    <Typography variant="h6">Investissements</Typography>
                 </Grid>
                 <Grid item>
                     <IconButton
@@ -273,7 +272,7 @@ const DataForm = ({
                     updateInvestment={updateInvestment}
                 />
             ))}
-        </Paper>
+        </div>
     );
 };
 
