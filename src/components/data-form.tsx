@@ -33,6 +33,10 @@ const useStyles = makeStyles((theme) => {
         sliderContainer: {
             width: 'calc(100% - 130px)',
         },
+        slider: {
+            paddingTop: theme.spacing(3),
+            paddingBottom: 0,
+        },
         addButton: {
             marginLeft: theme.spacing(1),
         },
@@ -246,6 +250,7 @@ const DataForm = ({
                         min={1}
                         max={40}
                         valueLabelDisplay="on"
+                        className={classes.slider}
                     />
                 </Grid>
             </Grid>
