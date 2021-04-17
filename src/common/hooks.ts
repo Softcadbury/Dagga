@@ -1,5 +1,4 @@
-import React, { ChangeEvent, useCallback, useRef, useState } from 'react';
-import debounce from 'lodash.debounce';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 export type InputChangeCallbackType = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -58,6 +57,22 @@ export function useToggleState(
     return [value, useCallback(() => setValue(!value), [value])];
 }
 
+export function useDebouncedState<T>(value: T, delay: number) {
+    const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [delay, value]);
+
+    return debouncedValue;
+}
+
 export function useLocalStorage<T>(
     key: string,
     initialValue: T
@@ -72,18 +87,10 @@ export function useLocalStorage<T>(
         }
     });
 
-    const debouncedSave = useRef(
-        debounce(
-            (newValue: T) =>
-                window.localStorage.setItem(key, JSON.stringify(newValue)),
-            400
-        )
-    ).current;
-
     const setValue = (value: T) => {
         try {
             setStoredValue(value);
-            debouncedSave(value);
+            window.localStorage.setItem(key, JSON.stringify(value));
         } catch (error) {
             console.log(error);
         }

@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import { Investment, InvestmentData } from '../types/investment';
 import { useEffect, useMemo } from 'react';
-import { useLocalStorage, useSlider } from '../common/hooks';
+import { useDebouncedState, useLocalStorage, useSlider } from '../common/hooks';
 import DataGraph from '../components/data-graph';
 import DataForm from '../components/data-form';
 import DataTable from '../components/data-table';
@@ -76,19 +76,20 @@ function App() {
         updateInvestment,
     } = useInvestment();
 
-    const visibleInvestments = useMemo(
-        () => investments.filter((p) => p.isVisible),
-        [investments]
+    const debouncedTime = useDebouncedState(time, 300);
+    const debouncedInvestments = useDebouncedState(
+        investments.filter((p) => p.isVisible),
+        300
     );
 
     const computedInvestments: InvestmentData[] = useMemo(
-        () => computeInvestmentsData(visibleInvestments, time),
-        [visibleInvestments, time]
+        () => computeInvestmentsData(debouncedInvestments, debouncedTime),
+        [debouncedInvestments, debouncedTime]
     );
 
     const { cumulatedAmounts, cumulatedAmountsWithInterest } = useMemo(
-        () => reduceInvestmentsData(computedInvestments, time),
-        [computedInvestments, time]
+        () => reduceInvestmentsData(computedInvestments, debouncedTime),
+        [computedInvestments, debouncedTime]
     );
 
     return (
@@ -101,19 +102,19 @@ function App() {
                 time={time}
                 onTimeChange={onTimeChange}
             />
-            {!!investments.length && (
+            {!!debouncedInvestments.length && (
                 <DataGraph
                     cumulatedAmounts={cumulatedAmounts}
                     cumulatedAmountsWithInterest={cumulatedAmountsWithInterest}
                 />
             )}
-            {!!investments.length && (
+            {!!debouncedInvestments.length && (
                 <DataTable
-                    investments={visibleInvestments}
+                    investments={debouncedInvestments}
                     computedInvestments={computedInvestments}
                     cumulatedAmounts={cumulatedAmounts}
                     cumulatedAmountsWithInterest={cumulatedAmountsWithInterest}
-                    time={time}
+                    time={debouncedTime}
                 />
             )}
         </div>
