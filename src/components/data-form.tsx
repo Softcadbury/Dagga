@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => {
         investment: {
             marginBottom: theme.spacing(2),
         },
+        investmentNotVisible: {
+            opacity: 0.4,
+        },
         icon: {
             fontSize: '1.3rem',
         },
@@ -128,7 +131,9 @@ const InvestmentForm = ({
             container
             spacing={2}
             alignItems="center"
-            className={classes.investment}
+            className={`${classes.investment} ${
+                !isVisible ? classes.investmentNotVisible : ''
+            }`}
         >
             <Grid item lg={2} md={4} sm={6} xs={12}>
                 <TextField
